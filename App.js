@@ -24,7 +24,7 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
-import Main from './Components/Main'
+import Login from './Components/Login'
 
 // i might have to make this a class, with states
 // so that i can track if the user is logged in,
@@ -35,16 +35,18 @@ import Main from './Components/Main'
 
 const App: () => React$Node = () => {
   return (
-      <View style={styles.container}>
-        <Text style={styles.loginContainer}>
-          Welcome to my React App
-        </Text>
+    <View style={styles.container}>
+      <StatusBar barStyle="dark-content" />
+      <SafeAreaView style={styles.container}>
+        {/* company logo goes here */}
+        <Text style={styles.logo}>Groak!</Text>
+        <Text style={{fontFamily: 'Bodoni 72'}}>Let us find food for you</Text>
         <View style={styles.login}>
-          <Main></Main>
+          <Login></Login>
         </View>
-      </View>
+      </SafeAreaView>
+    </View>
     // <>
-    //   <StatusBar barStyle="dark-content" />
     //   <SafeAreaView>
     //     <ScrollView
     //       contentInsetAdjustmentBehavior="automatic"
@@ -125,23 +127,21 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: '#e9967a',
     flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#8fbc8f'
   },
-  loginContainer: {
+  logo: {
     fontSize: 30,
-    justifyContent: "center",
-    alignItems: "center",
-    // margin: "auto",
-    textAlign: "center",
     fontWeight: '600',
-    // position: "absolute",
-    backgroundColor: Colors.white,
-    marginTop: 32,
-    paddingHorizontal: 24,
+    fontFamily: 'Bodoni 72'
   },
   login: {
-    padding: 170,
-    backgroundColor: Colors.light
-  }
+    backgroundColor: '#5f9ea0',
+    width: '80%',
+    borderRadius: 10,
+    alignItems: 'center',
+  },
 });
 
 export default App;
