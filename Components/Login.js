@@ -1,16 +1,19 @@
 import React, { Component, useState } from 'react';
-import {Picker, Text, StyleSheet, View, TextInput, Button} from 'react-native';
+import {Picker, Text, StyleSheet, View, TextInput, Button, AsyncStorage} from 'react-native';
 
 export default class Login extends Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
     this.state = {
       email: "",
       password: "",
     }
-    this.onPress = this.onPress.bind(this)
     this.handleNewUser = this.handleNewUser.bind(this)
     this.handleNoPass = this.handleNoPass.bind(this)
+    this._userInfo = {
+      name: 'admin',
+      pass: 'test1234'
+    }
   }
 
   // Bypasses below issue for now: 
@@ -21,17 +24,13 @@ export default class Login extends Component {
 // https://reactnative.dev/docs/handling-touches
 
 
-  onPress(e){
-    // console.log(elem)
-    // this will submit what is in the forms
-    // this should then authenticate with the server side
-    // depending on whether the response is good or not, I should have a 
-    // conditional render saying invalid login --- for now however just have the login always work!!
-    // this means it should be held in its parents, or it could just do a callback to parents change screen function
-    console.log(this.state.email, this.state.password)
-  }
-
   handleNoPass(){
+    AsyncStorage.setItem('test', 'TUREEE', () => {
+      AsyncStorage.getAllKeys((data) => {
+        console.log('what i just added', data)
+      })
+    })
+    
     alert('Well too bad.')
   }
 
@@ -39,32 +38,50 @@ export default class Login extends Component {
     alert('Sorry, not accepting new users. Try again later.')
   }
 
+  _login = async({navigation}) => {
+    if (this.state.email === this._userInfo.name && this.state.password === this._userInfo.pass){
+      await AsyncStorage.setItem('isLoggedIn', 'true')
+      this.props.func(true)
+    } else {
+      alert('Incorrect password or email!')
+    }
+  }
+
   render() {
     return (
-      <View style = {styles.container}>
-        <TextInput 
-          placeholder="Email"
-          style = {styles.input}
-          value = {this.state.email}
-          onChangeText = {text => {this.setState({'email': text})}}
-          />
-        <TextInput
-          secureTextEntry={true}
-          placeholder="Password"
-          style = {styles.input}
-          onChangeText = {text => {this.setState({'password': text})}}
-        />
-        <View style={styles.button}>
-          <Button 
-            title='Login' 
-            color= '#fff'
-            onPress={this.onPress}
-            name = "login"
-            // tried textStyle and fontFamily and was not able to change font of button so it looks weird
-          />
+      <View style={styles.outerContainer}>
+        <Text style={styles.logo}>Groak!</Text>
+        <Text style={{fontFamily: 'Bodoni 72'}}>Let us find food for you</Text>
+        <View style={styles.login}>
+          <View style = {styles.innerContainer}>
+            <TextInput 
+              placeholder="Email"
+              style = {styles.input}
+              value = {this.state.email}
+              onChangeText = {text => {this.setState({'email': text})}}
+              autoCapitalize = "none"
+              />
+            <TextInput
+              secureTextEntry={true}
+              placeholder="Password"
+              style = {styles.input}
+              onChangeText = {text => {this.setState({'password': text})}}
+              autoCapitalize = "none"
+            />
+            <View style={styles.button}>
+              <Button 
+                title='Login' 
+                color= '#fff'
+                // onPress={this.onPress}
+                onPress={this._login.bind(this,this.props)}
+                name = "login"
+                // tried textStyle and fontFamily and was not able to change font of button so it looks weird
+              />
+            </View>
+            <Text style={styles.text} name="forgotPass" onPress={this.handleNoPass}> Don't remember your password? </Text>
+            <Text style={styles.text} name="newAccount" onPress={this.handleNewUser}> Create a new account! </Text>
+          </View>
         </View>
-        <Text style={styles.text} name="forgotPass" onPress={this.handleNoPass}> Don't remember your password? </Text>
-        <Text style={styles.text} name="newAccount" onPress={this.handleNewUser}> Create a new account! </Text>
       </View>
     );
   }
@@ -72,7 +89,25 @@ export default class Login extends Component {
 
 
 const styles = StyleSheet.create({
-  container: {
+  outerContainer:{
+    backgroundColor: '#e9967a',
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#8fbc8f'
+  },
+  logo: {
+    fontSize: 30,
+    fontWeight: '600',
+    fontFamily: 'Bodoni 72'
+  },
+  login: {
+    backgroundColor: '#5f9ea0',
+    width: '80%',
+    borderRadius: 10,
+    alignItems: 'center',
+  },
+  innerContainer: {
     alignItems: "center",
     justifyContent: "center",
     width: 'auto',
@@ -97,16 +132,3 @@ const styles = StyleSheet.create({
     margin: 10,
   },
 });
-
-
-
-// CREATE A PLAN FOR THE APP
-
-// About section, and then have a login button that when its clicked the the pop up shows
-
-// WHEN YOU OPEN THE APP, there will be alogo at the top, and then just a big login form?
-// kind of like a banking app...?
-
-
-// once you log in, then it will go to the main page so i need to Conditional render
-// this page will be the main selection page where I can choose what I want to do

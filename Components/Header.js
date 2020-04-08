@@ -19,7 +19,8 @@ const Header = (): Node => (
     accessibilityRole={'image'}
     source={require('./logo.png')}
     style={styles.background}
-    imageStyle={styles.logo}>
+    imageStyle={styles.logo}
+    >
     <Text style={styles.text}>Groak</Text>
     <Text style={styles.smalltext}>Never go hungry deciding on food again! </Text>
   </ImageBackground>

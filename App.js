@@ -1,12 +1,7 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow
- */
-
+import 'react-native-gesture-handler';
 import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 import Header from './Components/Header'
 import {
   SafeAreaView,
@@ -15,132 +10,141 @@ import {
   View,
   Text,
   StatusBar,
+  Button,
+  ActivityIndicator,
+  AsyncStorage,
 } from 'react-native';
 
-import {
-  LearnMoreLinks,
-  Colors,
-  DebugInstructions,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
 
 import Login from './Components/Login'
 
-// i might have to make this a class, with states
-// so that i can track if the user is logged in,
-// conditional render the login screen on the main page
-  // main page will have a pie chart of the persons favortie foods
-  // or i could play with d3 and let the user have a choice of how
-  // they want it displayed by clicking on a tab
+const Stack = createStackNavigator();
 
-const App: () => React$Node = () => {
-  return (
-    <View style={styles.container}>
-      <StatusBar barStyle="dark-content" />
-      <SafeAreaView style={styles.container}>
-        {/* company logo goes here */}
-        <Text style={styles.logo}>Groak!</Text>
-        <Text style={{fontFamily: 'Bodoni 72'}}>Let us find food for you</Text>
-        <View style={styles.login}>
-          <Login></Login>
+  function SplashScreen() {
+    return (
+      <View style={styles.container}>
+        <Text>Splash Screen</Text>
+      </View>
+    );
+  }
+
+  function DetailsScreen() {
+    return (
+      <View style={styles.container}>
+        <Text>Details Screen</Text>
+      </View>
+    );
+  }
+
+  function HomeScreen({navigation}) {
+    return (
+      <View style={styles.container}>
+        {/* <Header></Header> */}
+        <Text>Home Screen</Text>
+        <Button
+          title="Find More Details"
+          onPress = {() => {navigation.navigate('Details')}}
+        />
+      </View>
+    );
+  }
+  
+  class AuthLoadingScreen extends React.Component {
+    constructor(props){
+      super(props)
+      this._loadData()
+    }
+
+    _loadData = async() => {
+      const isLoggedIn = await AsyncStorage.getItem('isLoggedIn')
+    }
+
+    render(){
+      return(
+        <View style={styles.container}>
+          <ActivityIndicator/>
+          <StatusBar barStyle='default'/>
         </View>
-      </SafeAreaView>
-    </View>
-    // <>
-    //   <SafeAreaView>
-    //     <ScrollView
-    //       contentInsetAdjustmentBehavior="automatic"
-    //       style={styles.scrollView}>
+      )
+    }
+  }
 
-    //       <Header />
+class App extends React.Component {
+  constructor(){
+    super()
+    this.state ={
+      isLoading: true,
+      userToken:null
+    }
+    this.AuthLoadingScreen = this.AuthLoadingScreen.bind(this)
+  }
 
-    //       {/* {global.HermesInternal == null ? null : (
-    //         <View style={styles.engine}>
-    //           <Text style={styles.footer}>Engine: Hermes</Text>
-    //         </View>
-    //       )} */}
+  componentDidMount(){
+    // find if user is logged in or not, and if he is, then move to next screen or not
+    
 
-    //       <View style={styles.body}>
-    //         <View style={styles.sectionContainer}>
-    //           {/* <Text style={styles.sectionTitle}>Step One: Gurjot's Awesome project</Text> */}
-    //           {/* <Text style={styles.sectionDescription}>
-    //             Edit <Text style={styles.highlight}>App.js</Text> to change this
-    //             screen and then come back to see your edits. Gurjot Edited buddy
-    //             some stuff in here like this.
-    //           </Text> */}
-    //         </View>
-    //         <Main/>
-    //         {/* <LearnMoreLinks /> */}
-    //       </View>
-    //     </ScrollView>
-    //   </SafeAreaView>
-    // </>
-  );
+
+    AsyncStorage.getItem('test', (isLoggedIn) => {
+      AsyncStorage.getAllKeys((data) => {
+        console.log('inside async', data)
+      })
+      // console.log('when starting up I check async storage', isLoggedIn)
+      this.setState({
+        userToken: isLoggedIn,
+        isLoading: false
+      })
+    })
+  }
+
+  AuthLoadingScreen(userToken){
+    this.setState({
+      userToken: userToken
+    })
+  }
+
+  render(){
+    if (this.state.isLoading) {
+      return <SplashScreen />;
+    } else {
+      if (this.state.userToken === null){
+        return (
+          <NavigationContainer>
+            <Stack.Navigator>
+              <Stack.Screen name="Login" >
+                  {() => <Login func={this.AuthLoadingScreen} />} 
+              </Stack.Screen>
+              {/* should add screens for new users or forgotten pass here? or can make it single page app */}
+            </Stack.Navigator>
+          </NavigationContainer>
+        )
+      } else {
+        return (
+          <NavigationContainer>
+            <Stack.Navigator>
+              <Stack.Screen name="Home" component={HomeScreen} />
+              <Stack.Screen name="Details" component={DetailsScreen} />
+            </Stack.Navigator>
+
+          </NavigationContainer>
+        )
+      }
+    }
+
+  }
 };
-
 
 // maybe later down the line add a splash screen here
 
-// see what status bar and safe area view and scroll view are!!
 // and idk why i had to add flex: 1 for it to cover the whole page, is there already a flexbox implemented?
 // i guess i actually dont know how the css is working on this app
 
 const styles = StyleSheet.create({
-  scrollView: {
-    backgroundColor: '#e9967a',
-  },
-  engine: {
-    position: 'absolute',
-    right: 0,
-  },
-  body: {
-    backgroundColor: '#e9967a',
-    flex: 1,
-    fontSize: 30
-  },
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-    color: Colors.black,
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-    color: Colors.dark,
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-  footer: {
-    color: Colors.dark,
-    fontSize: 12,
-    fontWeight: '600',
-    padding: 4,
-    paddingRight: 12,
-    textAlign: 'right',
-  },
   container: {
     backgroundColor: '#e9967a',
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#8fbc8f'
-  },
-  logo: {
-    fontSize: 30,
-    fontWeight: '600',
-    fontFamily: 'Bodoni 72'
-  },
-  login: {
-    backgroundColor: '#5f9ea0',
-    width: '80%',
-    borderRadius: 10,
-    alignItems: 'center',
   },
 });
 
