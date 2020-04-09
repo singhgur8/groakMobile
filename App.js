@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler';
 import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import Header from './Components/Header'
 import {
@@ -12,8 +12,9 @@ import {
   StatusBar,
   Button,
   ActivityIndicator,
-  AsyncStorage,
 } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
+
 
 
 import Login from './Components/Login'
@@ -36,7 +37,18 @@ const Stack = createStackNavigator();
     );
   }
 
-  function HomeScreen({navigation}) {
+  function HomeScreen({logout}) {
+    const navigation = useNavigation();
+    let signout = () => {
+      AsyncStorage.clear()
+      .then(() => {
+        logout()
+      })
+      .catch(err => {
+        alert('unable to logout')
+      })
+    }
+
     return (
       <View style={styles.container}>
         {/* <Header></Header> */}
@@ -45,28 +57,12 @@ const Stack = createStackNavigator();
           title="Find More Details"
           onPress = {() => {navigation.navigate('Details')}}
         />
+        <Button
+          title='Logout'
+          onPress = {signout}
+        />
       </View>
     );
-  }
-  
-  class AuthLoadingScreen extends React.Component {
-    constructor(props){
-      super(props)
-      this._loadData()
-    }
-
-    _loadData = async() => {
-      const isLoggedIn = await AsyncStorage.getItem('isLoggedIn')
-    }
-
-    render(){
-      return(
-        <View style={styles.container}>
-          <ActivityIndicator/>
-          <StatusBar barStyle='default'/>
-        </View>
-      )
-    }
   }
 
 class App extends React.Component {
@@ -74,31 +70,39 @@ class App extends React.Component {
     super()
     this.state ={
       isLoading: true,
-      userToken:null
+      userToken: null,
     }
-    this.AuthLoadingScreen = this.AuthLoadingScreen.bind(this)
+    this._logout = this._logout.bind(this)
+    this._login = this._login.bind(this)
   }
 
   componentDidMount(){
-    // find if user is logged in or not, and if he is, then move to next screen or not
-    
-
-
-    AsyncStorage.getItem('test', (isLoggedIn) => {
-      AsyncStorage.getAllKeys((data) => {
-        console.log('inside async', data)
-      })
-      // console.log('when starting up I check async storage', isLoggedIn)
-      this.setState({
-        userToken: isLoggedIn,
-        isLoading: false
-      })
+    AsyncStorage.getItem('isLoggedIn')
+    .then(val => {
+      this.setState({isLoading: false})
+      if (val === 'true'){
+        this.setState({
+          userToken: val,
+        })
+      } else {
+        console.log('Got value from async sotrage but it doesnt match: ', val)
+        // means theyre not logged in, or value doesnt exist
+      }
+    })
+    .catch(err => {
+      alert('could not get item from async storage')
     })
   }
 
-  AuthLoadingScreen(userToken){
+  _login(userToken){
     this.setState({
       userToken: userToken
+    })
+  }
+
+  _logout(){
+    this.setState({
+      userToken: null
     })
   }
 
@@ -111,7 +115,7 @@ class App extends React.Component {
           <NavigationContainer>
             <Stack.Navigator>
               <Stack.Screen name="Login" >
-                  {() => <Login func={this.AuthLoadingScreen} />} 
+                  {() => <Login login={this._login} />} 
               </Stack.Screen>
               {/* should add screens for new users or forgotten pass here? or can make it single page app */}
             </Stack.Navigator>
@@ -121,7 +125,10 @@ class App extends React.Component {
         return (
           <NavigationContainer>
             <Stack.Navigator>
-              <Stack.Screen name="Home" component={HomeScreen} />
+              <Stack.Screen name="Home">
+                  {() => <HomeScreen logout={this._logout} />}
+              </Stack.Screen>
+              
               <Stack.Screen name="Details" component={DetailsScreen} />
             </Stack.Navigator>
 
@@ -132,8 +139,6 @@ class App extends React.Component {
 
   }
 };
-
-// maybe later down the line add a splash screen here
 
 // and idk why i had to add flex: 1 for it to cover the whole page, is there already a flexbox implemented?
 // i guess i actually dont know how the css is working on this app

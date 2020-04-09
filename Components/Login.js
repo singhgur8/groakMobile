@@ -1,5 +1,7 @@
 import React, { Component, useState } from 'react';
-import {Picker, Text, StyleSheet, View, TextInput, Button, AsyncStorage} from 'react-native';
+import {Picker, Text, StyleSheet, View, TextInput, Button} from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
+
 
 export default class Login extends Component {
   constructor(props) {
@@ -24,13 +26,8 @@ export default class Login extends Component {
 // https://reactnative.dev/docs/handling-touches
 
 
+// These two funcitons below eventually need to be screens of their own
   handleNoPass(){
-    AsyncStorage.setItem('test', 'TUREEE', () => {
-      AsyncStorage.getAllKeys((data) => {
-        console.log('what i just added', data)
-      })
-    })
-    
     alert('Well too bad.')
   }
 
@@ -38,10 +35,15 @@ export default class Login extends Component {
     alert('Sorry, not accepting new users. Try again later.')
   }
 
-  _login = async({navigation}) => {
+  _login = () => {
     if (this.state.email === this._userInfo.name && this.state.password === this._userInfo.pass){
-      await AsyncStorage.setItem('isLoggedIn', 'true')
-      this.props.func(true)
+      AsyncStorage.setItem('isLoggedIn', 'true')
+      .then(()=> {
+        this.props.login(true)
+      })
+      .catch(()=>{
+        alert('could not update async storage')
+      })
     } else {
       alert('Incorrect password or email!')
     }
@@ -56,6 +58,7 @@ export default class Login extends Component {
           <View style = {styles.innerContainer}>
             <TextInput 
               placeholder="Email"
+              placeholderTextColor="#696969"
               style = {styles.input}
               value = {this.state.email}
               onChangeText = {text => {this.setState({'email': text})}}
@@ -64,6 +67,7 @@ export default class Login extends Component {
             <TextInput
               secureTextEntry={true}
               placeholder="Password"
+              placeholderTextColor="#696969"
               style = {styles.input}
               onChangeText = {text => {this.setState({'password': text})}}
               autoCapitalize = "none"
@@ -114,17 +118,19 @@ const styles = StyleSheet.create({
     padding: 20
   },
   input: {
-    width: 300,
+    width: 200,
     margin: 10,
     backgroundColor: '#fff',
     borderRadius: 3,
     fontSize: 23,
-    fontFamily: 'Bodoni 72'
+    fontFamily: 'Bodoni 72',
+    color: '#000',
+
   },
   text: {
     marginTop: 5,
     textDecorationLine: "underline",
-    fontFamily: 'Bodoni 72'
+    fontFamily: 'Bodoni 72',
   },
   button: {
     backgroundColor: '#2f4f4f',
