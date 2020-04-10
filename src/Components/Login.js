@@ -1,8 +1,9 @@
 import React, { Component, useState } from 'react';
-import {Picker, Text, StyleSheet, View, TextInput, Button, ScrollView} from 'react-native';
+import {Picker, Text, StyleSheet, View, TextInput, Button, ScrollView, ImageBackground} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import Colors from '../tools/Colors';
-
+import Img from '../tools/logo.png'
+import { ceil } from 'react-native-reanimated';
 
 export default class Login extends Component {
   constructor(props) {
@@ -58,8 +59,15 @@ export default class Login extends Component {
       keyboardShouldPersistTaps='never'
       >
         <View style={styles.outerContainer}>
-          <Text style={styles.logo}>Groak!</Text>
-          <Text style={{fontFamily: 'Bodoni 72'}}>Let us find food for you</Text>
+          <Text style={styles.logoTxt}>Groak!</Text>
+          <Text style={{fontFamily: 'Bodoni 72', marginBottom: -135}}>Let us find food for you</Text>
+          <ImageBackground
+            accessibilityRole={'image'}
+            source={Img}
+            style={styles.background}
+            imageStyle={styles.logoIMG}
+            >
+          </ImageBackground>
           <View style={styles.login}>
             <View style = {styles.innerContainer}>
               <TextInput 
@@ -102,7 +110,7 @@ export default class Login extends Component {
 const styles = StyleSheet.create({
   scrollView: {
     backgroundColor: '#8fbc8f',
-    paddingTop: 230
+    paddingTop: 20
   },
   outerContainer:{
     flex: 1,
@@ -110,10 +118,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#8fbc8f'
   },
-  logo: {
+  logoTxt: {
     fontSize: 30,
     fontWeight: '600',
-    fontFamily: 'Bodoni 72'
+    fontFamily: 'Bodoni 72',
+    paddingTop: 80,
+    marginBottom: 0
   },
   login: {
     backgroundColor: '#5f9ea0',
@@ -145,5 +155,21 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.button,
     borderRadius: 4,
     margin: 10,
+  },
+  background: {
+    flex:1,
+    backgroundColor: 'rgba(52, 52, 52, 0)',
+    height: 300,
+    width: 50,
+    paddingRight: 150,
+    marginBottom: 50
+  },
+  logoIMG: {
+    opacity: 1,
+    overflow: 'visible',
+    resizeMode: 'cover',
+    backgroundColor: 'rgba(52, 52, 52, 0)',
+    height: 500,
+    width: 150,
   },
 });
