@@ -1,5 +1,5 @@
 import React, { Component, useState } from 'react';
-import {Picker, Text, StyleSheet, View, TextInput, Button} from 'react-native';
+import {Picker, Text, StyleSheet, View, TextInput, Button, ScrollView} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 
 
@@ -51,50 +51,59 @@ export default class Login extends Component {
 
   render() {
     return (
-      <View style={styles.outerContainer}>
-        <Text style={styles.logo}>Groak!</Text>
-        <Text style={{fontFamily: 'Bodoni 72'}}>Let us find food for you</Text>
-        <View style={styles.login}>
-          <View style = {styles.innerContainer}>
-            <TextInput 
-              placeholder="Email"
-              placeholderTextColor="#696969"
-              style = {styles.input}
-              value = {this.state.email}
-              onChangeText = {text => {this.setState({'email': text})}}
-              autoCapitalize = "none"
+      <ScrollView 
+      style={styles.scrollView} 
+      keyboardDismissMode='on-drag' 
+      keyboardShouldPersistTaps='never'
+      >
+        <View style={styles.outerContainer}>
+          <Text style={styles.logo}>Groak!</Text>
+          <Text style={{fontFamily: 'Bodoni 72'}}>Let us find food for you</Text>
+          <View style={styles.login}>
+            <View style = {styles.innerContainer}>
+              <TextInput 
+                placeholder="Email"
+                placeholderTextColor="#696969"
+                style = {styles.input}
+                value = {this.state.email}
+                onChangeText = {text => {this.setState({'email': text})}}
+                autoCapitalize = "none"
+                />
+              <TextInput
+                secureTextEntry={true}
+                placeholder="Password"
+                placeholderTextColor="#696969"
+                style = {styles.input}
+                onChangeText = {text => {this.setState({'password': text})}}
+                autoCapitalize = "none"
               />
-            <TextInput
-              secureTextEntry={true}
-              placeholder="Password"
-              placeholderTextColor="#696969"
-              style = {styles.input}
-              onChangeText = {text => {this.setState({'password': text})}}
-              autoCapitalize = "none"
-            />
-            <View style={styles.button}>
-              <Button 
-                title='Login' 
-                color= '#fff'
-                // onPress={this.onPress}
-                onPress={this._login.bind(this,this.props)}
-                name = "login"
-                // tried textStyle and fontFamily and was not able to change font of button so it looks weird
-              />
+              <View style={styles.button}>
+                <Button 
+                  title='Login' 
+                  color= '#fff'
+                  // onPress={this.onPress}
+                  onPress={this._login.bind(this,this.props)}
+                  name = "login"
+                  // tried textStyle and fontFamily and was not able to change font of button so it looks weird
+                />
+              </View>
+              <Text style={styles.text} name="forgotPass" onPress={this.handleNoPass}> Don't remember your password? </Text>
+              <Text style={styles.text} name="newAccount" onPress={this.handleNewUser}> Create a new account! </Text>
             </View>
-            <Text style={styles.text} name="forgotPass" onPress={this.handleNoPass}> Don't remember your password? </Text>
-            <Text style={styles.text} name="newAccount" onPress={this.handleNewUser}> Create a new account! </Text>
           </View>
         </View>
-      </View>
+      </ScrollView>
     );
   }
 }
 
 
 const styles = StyleSheet.create({
+  scrollView: {
+    backgroundColor: '#8fbc8f',
+    paddingTop: 230
+  },
   outerContainer:{
-    backgroundColor: '#e9967a',
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
@@ -125,7 +134,6 @@ const styles = StyleSheet.create({
     fontSize: 23,
     fontFamily: 'Bodoni 72',
     color: '#000',
-
   },
   text: {
     marginTop: 5,

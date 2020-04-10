@@ -9,7 +9,7 @@
  */
 
 'use strict';
-import Colors from './Colors';
+import Colors from '../../tools/Colors';
 import type {Node} from 'react';
 import {Text, StyleSheet, ImageBackground} from 'react-native';
 import React from 'react';
