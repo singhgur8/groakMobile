@@ -16,6 +16,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 
 import Login from './src/Components/Login'
 import HomeScreen from './src/Components/Home/Homescreen'
+import DetailsScreen from './src/Components/Details'
 
 const Stack = createStackNavigator();
 
@@ -23,14 +24,6 @@ function SplashScreen() {
   return (
     <View style={styles.container}>
       <Text>Splash Screen</Text>
-    </View>
-  );
-}
-
-function DetailsScreen() {
-  return (
-    <View style={styles.container}>
-      <Text>Details Screen</Text>
     </View>
   );
 }
@@ -60,7 +53,7 @@ class App extends React.Component {
       }
     })
     .catch(err => {
-      alert('could not get item from async storage')
+      alert('could not get item from async storage. Could be syntax error inside of components too')
     })
   }
 
@@ -98,8 +91,9 @@ class App extends React.Component {
               <Stack.Screen name="Home">
                   {() => <HomeScreen logout={this._logout} />}
               </Stack.Screen>
-              
-              <Stack.Screen name="Details" component={DetailsScreen} />
+              <Stack.Screen name="Details">
+                  {() => <DetailsScreen logout={this._logout} />}
+              </Stack.Screen>
             </Stack.Navigator>
 
           </NavigationContainer>

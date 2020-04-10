@@ -6,5 +6,5 @@ export default {
   dark: '#444',
   black: '#000',
   button: '#2f4f4f',
-  wallpaper: ''
+  wallpaper: '#8fbc8f'
 };
