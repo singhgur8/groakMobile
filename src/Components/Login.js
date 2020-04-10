@@ -1,6 +1,7 @@
 import React, { Component, useState } from 'react';
 import {Picker, Text, StyleSheet, View, TextInput, Button, ScrollView} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
+import Colors from '../tools/Colors';
 
 
 export default class Login extends Component {
@@ -141,7 +142,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Bodoni 72',
   },
   button: {
-    backgroundColor: '#2f4f4f',
+    backgroundColor: Colors.button,
     borderRadius: 4,
     margin: 10,
   },

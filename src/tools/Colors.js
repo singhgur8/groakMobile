@@ -5,4 +5,6 @@ export default {
   light: '#DAE1E7',
   dark: '#444',
   black: '#000',
+  button: '#2f4f4f',
+  wallpaper: ''
 };

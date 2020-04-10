@@ -114,11 +114,9 @@ class App extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#e9967a',
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#8fbc8f'
   },
 });
 
