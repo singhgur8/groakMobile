@@ -16,7 +16,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 
 import Login from './src/Components/Login'
 import HomeScreen from './src/Components/Home/Homescreen'
-import DetailsScreen from './src/Components/Details'
+import DetailsScreen from './src/Components/Details/Details'
 
 const Stack = createStackNavigator();
 
