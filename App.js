@@ -1,22 +1,18 @@
 import 'react-native-gesture-handler';
 import React from 'react';
-import { NavigationContainer, useNavigation } from '@react-navigation/native';
+import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import {
-  SafeAreaView,
   StyleSheet,
-  ScrollView,
   View,
   Text,
-  StatusBar,
-  Button,
-  ActivityIndicator,
 } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 
 import Login from './src/Components/Login'
 import HomeScreen from './src/Components/Home/Homescreen'
 import DetailsScreen from './src/Components/Details/Details'
+import {navigationRef} from './src/tools/RootNavigation'
 
 const Stack = createStackNavigator();
 
@@ -86,10 +82,10 @@ class App extends React.Component {
         )
       } else {
         return (
-          <NavigationContainer>
+          <NavigationContainer ref={navigationRef}>
             <Stack.Navigator headerMode='none'>
               <Stack.Screen name="Home">
-                  {() => <HomeScreen logout={this._logout} />}
+                  {() => <HomeScreen logout={this._logout} navigation={this.navigation}/>}
               </Stack.Screen>
               <Stack.Screen name="Details">
                   {() => <DetailsScreen logout={this._logout} />}

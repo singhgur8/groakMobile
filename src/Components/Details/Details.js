@@ -5,7 +5,6 @@ import {
   View
 } from "react-native";
 import Navbar from '../NavBar'
-import { useNavigation } from '@react-navigation/native';
 import Colors from '../../tools/Colors'
 import FAQs from './FAQs'
 import DetailItem from './DetailItem';
@@ -13,11 +12,10 @@ import { ScrollView } from "react-native-gesture-handler";
 
 
 function DetailsScreen({logout}) {
-    const navigation = useNavigation();
     return (
       <View style={styles.container}>
         <View style={styles.navbar}>
-          <Navbar navigation={navigation} logout={logout}/>
+          <Navbar logout={logout}/>
         </View>
         <Text style={styles.title}>Details</Text>
         <View style={styles.seperator}/>

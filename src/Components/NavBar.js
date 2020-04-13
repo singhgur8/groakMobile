@@ -12,6 +12,8 @@ import {
 import { exp } from "react-native-reanimated";
 import Colors from '../tools/Colors'
 import AsyncStorage from '@react-native-community/async-storage';
+import * as RootNavigation from '../tools/RootNavigation';
+
 
 
 //ADAPT the design, so it doesnt take props from each of the screens but straight from the app
@@ -38,10 +40,11 @@ class NavBar extends Component {
     }
 
     changeScreen(screenName){
-        let {navigation} = this.props
+        // let {navigation} = this.props
         let {modalVisible} = this.state
         this.setModalVisible(!modalVisible);
-        navigation.navigate(screenName)
+        RootNavigation.navigate(screenName, {})
+        // navigation.navigate(screenName)
     }
 
     seperator(){
