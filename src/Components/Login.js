@@ -2,7 +2,9 @@ import React, { Component, useState } from 'react';
 import {Picker, Text, StyleSheet, View, TextInput, Button, ScrollView, ImageBackground} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import Colors from '../tools/Colors';
+import Font from '../tools/Styles';
 import Img from '../tools/logo.png'
+import ImgDarkMode from '../tools/logoDarkMode.png'
 import { ceil } from 'react-native-reanimated';
 
 export default class Login extends Component {
@@ -60,11 +62,11 @@ export default class Login extends Component {
       >
         <View style={styles.outerContainer}>
           <Text style={styles.logoTxt}>Groak!</Text>
-          <Text style={{fontFamily: 'Bodoni 72', marginBottom: -135}}>Let us find food for you</Text>
+          <Text style={{fontFamily: Font.font, marginBottom: -135, color: Colors.white}}>Let us find food for you</Text>
           <ImageBackground
             accessibilityRole={'image'}
-            source={Img}
-            style={styles.background}
+            source={ImgDarkMode}
+            style={styles.ImgBackground}
             imageStyle={styles.logoIMG}
             >
           </ImageBackground>
@@ -72,7 +74,7 @@ export default class Login extends Component {
             <View style = {styles.innerContainer}>
               <TextInput 
                 placeholder="Email"
-                placeholderTextColor="#696969"
+                placeholderTextColor={Colors.inputTextPlaceholder}
                 style = {styles.input}
                 value = {this.state.email}
                 onChangeText = {text => {this.setState({'email': text})}}
@@ -81,7 +83,7 @@ export default class Login extends Component {
               <TextInput
                 secureTextEntry={true}
                 placeholder="Password"
-                placeholderTextColor="#696969"
+                placeholderTextColor={Colors.inputTextPlaceholder}
                 style = {styles.input}
                 onChangeText = {text => {this.setState({'password': text})}}
                 autoCapitalize = "none"
@@ -109,24 +111,25 @@ export default class Login extends Component {
 
 const styles = StyleSheet.create({
   scrollView: {
-    backgroundColor: '#8fbc8f',
+    backgroundColor: Colors.wallpaper,
     paddingTop: 20
   },
   outerContainer:{
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#8fbc8f'
+    backgroundColor: Colors.wallpaper
   },
   logoTxt: {
     fontSize: 30,
     fontWeight: '600',
-    fontFamily: 'Bodoni 72',
+    fontFamily: Font.font,
     paddingTop: 80,
-    marginBottom: 0
+    marginBottom: 0,
+    color: Colors.white
   },
   login: {
-    backgroundColor: '#5f9ea0',
+    backgroundColor: Colors.innerContainer,
     width: '80%',
     borderRadius: 10,
     alignItems: 'center',
@@ -140,23 +143,24 @@ const styles = StyleSheet.create({
   input: {
     width: 200,
     margin: 10,
-    backgroundColor: '#fff',
+    backgroundColor: Colors.inputBackground,
     borderRadius: 3,
     fontSize: 23,
-    fontFamily: 'Bodoni 72',
+    fontFamily: Font.font,
     color: '#000',
   },
   text: {
     marginTop: 5,
     textDecorationLine: "underline",
-    fontFamily: 'Bodoni 72',
+    fontFamily: Font.font,
+    color: Colors.text
   },
   button: {
     backgroundColor: Colors.button,
     borderRadius: 4,
     margin: 10,
   },
-  background: {
+  ImgBackground: {
     flex:1,
     backgroundColor: 'rgba(52, 52, 52, 0)',
     height: 300,

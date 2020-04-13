@@ -4,6 +4,7 @@ import {View, Button, Text, StyleSheet} from 'react-native'
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import NavBar from '../NavBar';
+import Colors from '../../tools/Colors';
 
 
 
@@ -16,7 +17,7 @@ function HomeScreen({logout}) {
         </View>
         {/* <Header></Header> */}
         <View style={styles.container}>
-          <Text>Home Screen</Text>
+          <Text style={styles.text}>Home Screen</Text>
         </View>
       </View>
     );
@@ -27,7 +28,7 @@ function HomeScreen({logout}) {
       flex: 1,
       justifyContent: 'center',
       alignItems: 'center',
-      backgroundColor: '#8fbc8f',
+      backgroundColor: Colors.wallpaper,
     },
     navbar: {
       position: 'absolute',
@@ -35,6 +36,9 @@ function HomeScreen({logout}) {
       top: 25,
       left: 25,
       zIndex: 1,
+    },
+    text: {
+      color: Colors.white
     }
   });
 

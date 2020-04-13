@@ -93,7 +93,7 @@ class NavBar extends Component {
                     >
                         <View style={styles.centeredView}>
                             <View style={styles.modalView}>
-                                <Text style={styles.modalText}>Menu</Text>
+                                <Text style={{...styles.modalText, color: Colors.title}}>Menu</Text>
                                 {this.seperator()}
                                 <TouchableOpacity>
                                     <Text style={styles.modalText} onPress={()=>{this.changeScreen('Home')}}>Home</Text>
@@ -107,7 +107,7 @@ class NavBar extends Component {
                                     this.setModalVisible(!modalVisible);
                                     }}
                                 >
-                                    <Text style={{...styles.textStyle, color: Colors.Black}}>X</Text>
+                                    <Text style={styles.textStyle}>X</Text>
                                 </TouchableHighlight>
                                 <View style={styles.footer}>
                                     <TouchableHighlight>
@@ -128,7 +128,7 @@ class NavBar extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: 'rgba(52, 52, 52, 0)',
+        backgroundColor: Colors.transparent,
         marginTop: 22,
     }, 
     centeredView: {
@@ -158,7 +158,7 @@ const styles = StyleSheet.create({
         elevation: 5
     },
     closeButton: {
-        backgroundColor: "#F194FF",
+        backgroundColor: Colors.button,
         borderRadius: 5,
         padding: 10,
         elevation: 2,
@@ -169,7 +169,7 @@ const styles = StyleSheet.create({
         width: 55
     },
     textStyle: {
-        color: "black",
+        color: Colors.white,
         fontWeight: "bold",
         textAlign: "center",
         justifyContent: 'center',

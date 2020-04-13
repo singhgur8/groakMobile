@@ -21,18 +21,21 @@ function DetailsScreen({logout}) {
         </View>
         <Text style={styles.title}>Details</Text>
         <View style={styles.seperator}/>
-        <ScrollView style={styles.scrollView}
-        contentContainerStyle={{alignItems: "center", justifyContent: "center"}}
-        >
-          {FAQs.map((item, idx) => {
-            return(
-              <DetailItem
-                QandA = {item}
-                index = {idx}
-              />
-            )
-          })}
-        </ScrollView>
+        <View style = {styles.innerContainer}>
+          <ScrollView style={styles.scrollView}
+          contentContainerStyle={{alignItems: "center", justifyContent: "center"}}
+          >
+            {FAQs.map((item, idx) => {
+              return(
+                <DetailItem
+                  QandA = {item}
+                  index = {idx}
+                />
+              )
+            })}
+          </ScrollView>
+        </View>
+        <View style={{flex: .1}}></View>
       </View>
     );
   }
@@ -50,23 +53,30 @@ const styles = StyleSheet.create({
     top: 25,
     left: 25,
     zIndex: 1,
-  },
+  },  
   title: {
     fontSize: 30,
     paddingTop: 73,
     fontWeight: 'bold',
     fontFamily: 'Bodoni 72',
-    marginBottom: -10
+    marginBottom: -10,
+    color: Colors.title
   },
   scrollView: {
     flex: 1,
-    paddingTop: 10
+    paddingTop: 10,
   },
   seperator: {
     borderBottomWidth: StyleSheet.hairlineWidth,
     width: '100%',
-    margin: 10
+    margin: 10,
+    borderColor: Colors.text
   },
+  innerContainer: {
+    flex: 1,
+    backgroundColor: Colors.innerContainer,
+    borderRadius: 10
+  }
 });
   
 export default DetailsScreen;

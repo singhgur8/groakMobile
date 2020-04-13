@@ -5,6 +5,12 @@ export default {
   light: '#DAE1E7',
   dark: '#444',
   black: '#000',
-  button: '#2f4f4f',
-  wallpaper: '#8fbc8f'
+  button: '#FF0266',
+  wallpaper: '#31221F',
+  innerContainer: '#270802',
+  title: '#FF7597',
+  text: 'white',
+  inputBackground: 'white',
+  inputTextPlaceholder: "#696969",
+  transparent: 'rgba(52, 52, 52, 0)'
 };

@@ -1,6 +1,7 @@
 import React, { Component, useState } from 'react';
 import {Picker, Text, StyleSheet, View, TextInput, Button, ScrollView, ImageBackground, LayoutAnimation} from 'react-native';
 import Colors from '../../tools/Colors'
+import Font from '../../tools/Styles'
 import { ceil } from 'react-native-reanimated';
 
 // Note UI not set to work on android, needs UI manager, read docs on layout animaiton
@@ -43,6 +44,7 @@ const styles = StyleSheet.create({
         borderBottomWidth: StyleSheet.hairlineWidth,
         width: 350,
         padding: 10,
+        borderColor: Colors.text
     },
     questionContainer: {
         flexDirection:"row"
@@ -50,15 +52,18 @@ const styles = StyleSheet.create({
     questionText: {
         fontSize: 20,
         fontWeight: "bold",
-        fontFamily: 'Bodoni 72',
-        marginRight: 10
+        fontFamily: Font.font,
+        marginRight: 10,
+        color: Colors.text
     },
     button: {
         fontSize: 30,
-        marginTop: -8
+        marginTop: -8,
+        color: Colors.button
     },
     answer:{
-        fontFamily: 'Bodoni 72',
-        fontSize:18
+        fontFamily: Font.font,
+        fontSize:18,
+        color: Colors.title
     }
 });
