@@ -27,7 +27,7 @@ function DetailsScreen({logout}) {
               return(
                 <DetailItem
                   QandA = {item}
-                  index = {idx}
+                  key = {idx}
                 />
               )
             })}

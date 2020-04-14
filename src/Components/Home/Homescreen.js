@@ -1,33 +1,28 @@
 import 'react-native-gesture-handler';
 import React from 'react';
-import {View, Button, Text, StyleSheet, Picker} from 'react-native'
+import {View, Button, Text, StyleSheet } from 'react-native'
 import NavBar from '../NavBar';
 import Colors from '../../tools/Colors';
 
 
 
+// React's default picker is really lousey, its kind of a modal that shows whicch lets you scroll throught things
+// then i would still have to select something. just see if there is already built drop down menus
+// if not, then i will have to create my own
+
 class HomeScreen extends React.Component {
   constructor(props){
     super(props)
+    this.state = {
+    }
   }
 
   render(){
     let {logout} = this.props
-    let selectedValue = 'js'
     return(
       <View style={{flex:1}}>
         <View style={styles.navbar}>
           <NavBar logout={logout}/>
-        </View>
-        <View style={styles.pickerContainer}>
-            <Picker
-              selectedValue={selectedValue}
-              style={{ height: 50, width: 150}}
-              onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}
-            >
-            <Picker.Item label="Java" value="java" />
-            <Picker.Item label="JavaScript" value="js" />
-          </Picker>
         </View>
         {/* <Header></Header> */}
         <View style={styles.container}>
@@ -55,11 +50,7 @@ class HomeScreen extends React.Component {
     text: {
       color: Colors.white
     },
-    pickerContainer: {
-      flex: 1,
-      paddingTop: 40,
-      alignItems: "center"
-    }
+
   });
 
 
