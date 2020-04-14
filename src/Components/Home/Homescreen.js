@@ -3,7 +3,7 @@ import React from 'react';
 import {View, Button, Text, StyleSheet } from 'react-native'
 import NavBar from '../NavBar';
 import Colors from '../../tools/Colors';
-
+import Piechart from '../Piechart/pie';
 
 
 // React's default picker is really lousey, its kind of a modal that shows whicch lets you scroll throught things
@@ -27,6 +27,7 @@ class HomeScreen extends React.Component {
         {/* <Header></Header> */}
         <View style={styles.container}>
           <Text style={styles.text}>Home Screen</Text>
+          <Piechart/>
         </View>
       </View>
     )
