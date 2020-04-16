@@ -9,6 +9,29 @@ import Piechart from '../Piechart/pie';
 // React's default picker is really lousey, its kind of a modal that shows whicch lets you scroll throught things
 // then i would still have to select something. just see if there is already built drop down menus
 // if not, then i will have to create my own
+const demoData = [
+  {
+      name: 'mexican',
+      number: Math.random()*100,
+      color: '#0d2f51'
+  },
+  {
+      name: 'Italian',
+      number: Math.random()*100,
+      color: '#28BD8B'
+  },
+  {
+      name: 'Asian',
+      number: Math.random()*100,
+      color: '#F66A6A'
+  },
+  {
+      name: 'Indian',
+      number: Math.random()*100,
+      color: 'pink'
+  }
+];
+
 
 class HomeScreen extends React.Component {
   constructor(props){
@@ -17,6 +40,9 @@ class HomeScreen extends React.Component {
     }
   }
 
+  // TEST the pie chart by passing down different props each time
+
+  
   render(){
     let {logout} = this.props
     return(
@@ -27,7 +53,7 @@ class HomeScreen extends React.Component {
         {/* <Header></Header> */}
         <View style={styles.container}>
           <Text style={styles.text}>Home Screen</Text>
-          <Piechart/>
+          <Piechart demoData={demoData}/>
         </View>
       </View>
     )

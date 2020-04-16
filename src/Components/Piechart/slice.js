@@ -10,13 +10,17 @@ export default class Slice extends Component {
         this.state = {};
         this.arcGenerator = d3.shape.arc()
             .outerRadius(100)
-            .padAngle(0)
-            .innerRadius(0);
+            .innerRadius(80)
+            .cornerRadius(6)
+            .padAngle(80)
+            .padRadius(3);
     }
+
 
     createPieArc = (index, endAngle, data) => {
 
         const arcs = d3.shape.pie()
+            .sort(null)
             .value((item)=>item.number)
             .startAngle(0)
             .endAngle(endAngle)
@@ -34,9 +38,12 @@ export default class Slice extends Component {
             endAngle,
             color,
             index,
-            data
+            data,
+            test
         } = this.props;
         let val = data[index].number;
+        // alert(endAngle)
+        data[0].number = test
 
         return (
             <Path
