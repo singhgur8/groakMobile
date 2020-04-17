@@ -11,6 +11,7 @@ const AnimatedSlice = Animated.createAnimatedComponent(Slice);
 // because dont i want it to stay in the same order... as before, because only then will it keep its colors
 // maybe i can use a hash map? to track position and color?
 
+
 export default class Piechart extends Component {
 
     constructor(props) {
@@ -65,8 +66,92 @@ export default class Piechart extends Component {
         console.log(this.state)
     }
 
+    // static getDerivedStateFromProps(nextProps, prevProps){
+    //     /// maybe i need to stop this from running the first time, cus its running on component did mount
+    //     // basically animating the states as soon as theyre getting set? do i need to memoize it for that?
+
+
+        
+    //     for (let i = 0; i < nextProps.demoData.length; i++){
+    //         if (nextProps.demoData[i].number !== prevProps){
+    //             Animated.timing(
+    //                 prevProps[i],
+    //                 {
+    //                     toValue: nextProps.demoData[i].number,
+    //                     duration: 500,
+    //                     easing: Easing.inOut(Easing.quad)
+    //                 }
+    //             ).start()
+    //         }
+    //     }
+    //     return {}
+    //     // for (let idx = 0; idx < this.props.demoData.length; idx++){
+    //     //     this.state[idx] = new Animated.Value(this.props.demoData[idx].number)
+    //     //     this.state[idx+'name'] = this.props.demoData[idx].name
+    //     // } 
+    // }
+
+    componentDidUpdate(prevProps){
+        // console.log(this.state)
+
+        // for (let i = 0; i < this.props.demoData.length; i++){
+        //     if (this.props.demoData[i].number !== prevProps[i]){
+        //         Animated.timing(
+        //             this.state[i],
+        //             {
+        //                 toValue: 50,
+        //                 duration: 500,
+        //                 easing: Easing.inOut(Easing.quad)
+        //             }
+        //         ).start()
+        //     }
+        // }
+        console.log('compoent did still update?')
+    }
+
+    shouldComponentUpdate(prevProps){
+        // should return true or false
+        console.log('i ran')
+        // push all the animations into an array, and then use animate paraell to make them all happen
+
+
+        animationsArr = []
+        // only animating the values yet, not the colors or names
+        for (let i = 0; i < this.props.demoData.length; i++){
+            if (this.props.demoData[i].number !== prevProps[i]){
+                animationsArr.push(
+                    Animated.timing(
+                        this.state[i],
+                        {
+                            toValue: 25,
+                            duration:500,
+                            easing: Easing.inOut(Easing.quad)
+                        }
+                    )
+                )
+
+            }
+        }
+
+        Animated.parallel(animationsArr).start()
+
+        console.log(animationsArr)
+
+        return false
+    }
+
     render() {
         let endAngle = Animated.multiply(this.state.animValue, Math.PI);
+
+        // everytime new props come in, i need to update the index state of the prop
+        // and name state, which is not yet created, and color state?? other wise it will change color automatically
+        // but the pie also takes in the array so it can know the percentages of each slice
+        // demoData = 
+
+        // maybe it will help if this got its data from state and not props
+        // console.log(this.state['0'])
+
+        console.log('componente rendered')
 
         return (
             <View style={styles.container}>
@@ -80,7 +165,7 @@ export default class Piechart extends Component {
                         {this.props.demoData.map( (item, index) =>{
                             return (
                                 <AnimatedSlice
-                                    test = {this.state.animData}
+                                    animData = {this.state[index]}
                                     index={index}
                                     endAngle={endAngle}
                                     color={item.color}

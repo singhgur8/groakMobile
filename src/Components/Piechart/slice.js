@@ -10,7 +10,7 @@ export default class Slice extends Component {
         this.state = {};
         this.arcGenerator = d3.shape.arc()
             .outerRadius(100)
-            .innerRadius(80)
+            .innerRadius(20)
             .cornerRadius(6)
             .padAngle(80)
             .padRadius(3);
@@ -39,11 +39,11 @@ export default class Slice extends Component {
             color,
             index,
             data,
-            test
+            animData
         } = this.props;
         let val = data[index].number;
         // alert(endAngle)
-        data[0].number = test
+        data[index].number = animData
 
         return (
             <Path

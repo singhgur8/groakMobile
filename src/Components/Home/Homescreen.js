@@ -12,25 +12,50 @@ import Piechart from '../Piechart/pie';
 const demoData = [
   {
       name: 'mexican',
-      number: Math.random()*100,
+      number: 40,
       color: '#0d2f51'
   },
   {
       name: 'Italian',
-      number: Math.random()*100,
+      number: 20,
       color: '#28BD8B'
   },
   {
       name: 'Asian',
-      number: Math.random()*100,
+      number: 30,
       color: '#F66A6A'
   },
   {
       name: 'Indian',
-      number: Math.random()*100,
+      number: 10,
       color: 'pink'
+  },
+  {
+    name: 'Paki',
+    number: 0,
+    color: 'red'
+  },
+  {
+    name: 'American',
+    number: 0,
+    color: 'green'
   }
 ];
+
+class createFakeData {
+  constructor(){
+    this.data = demoData
+  }
+
+  generateData(){
+    for (let i = 0; i < 5; i++) {
+      let newNum = Math.random()*100
+      this.data[i].number = newNum
+    }
+    // console.log(this.data)
+    return this.data
+  }
+}
 
 
 class HomeScreen extends React.Component {
@@ -38,10 +63,23 @@ class HomeScreen extends React.Component {
     super(props)
     this.state = {
     }
+    this.mockData = new createFakeData()
+    this.state.data = this.mockData.generateData().sort((a,b) => b.number - a.number).slice(0,4)
+
+    this.updatePreferences = this.updatePreferences.bind(this)
   }
 
   // TEST the pie chart by passing down different props each time
 
+  updatePreferences(){
+    // this would be the api req, gets all the info, say it gets it, then it filters it here? NO we do that on server side
+    // but for time being to test how it will work, do it
+    let changedData = this.mockData.generateData().sort((a,b) => b.number - a.number).slice(0,4)
+    this.setState({
+      data: changedData
+    })
+
+  }
   
   render(){
     let {logout} = this.props
@@ -53,8 +91,11 @@ class HomeScreen extends React.Component {
         {/* <Header></Header> */}
         <View style={styles.container}>
           <Text style={styles.text}>Home Screen</Text>
-          <Piechart demoData={demoData}/>
+          <Piechart demoData={this.state.data}/>
         </View>
+        <Text onPress={this.updatePreferences}>
+          Add Users
+        </Text>
       </View>
     )
   }
