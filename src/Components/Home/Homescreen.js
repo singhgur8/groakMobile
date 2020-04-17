@@ -12,32 +12,32 @@ import Piechart from '../Piechart/pie';
 const demoData = [
   {
       name: 'mexican',
-      number: 40,
+      number: Math.random()*100,
       color: '#0d2f51'
   },
   {
       name: 'Italian',
-      number: 20,
+      number: Math.random()*100,
       color: '#28BD8B'
   },
   {
       name: 'Asian',
-      number: 30,
+      number: Math.random()*100,
       color: '#F66A6A'
   },
   {
       name: 'Indian',
-      number: 10,
+      number: Math.random()*100,
       color: 'pink'
   },
   {
     name: 'Paki',
-    number: 0,
+    number: Math.random()*100,
     color: 'red'
   },
   {
     name: 'American',
-    number: 0,
+    number: Math.random()*100,
     color: 'green'
   }
 ];
@@ -48,7 +48,7 @@ class createFakeData {
   }
 
   generateData(){
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < this.data.length; i++) {
       let newNum = Math.random()*100
       this.data[i].number = newNum
     }

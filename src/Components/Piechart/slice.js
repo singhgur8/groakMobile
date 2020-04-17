@@ -10,7 +10,7 @@ export default class Slice extends Component {
         this.state = {};
         this.arcGenerator = d3.shape.arc()
             .outerRadius(100)
-            .innerRadius(20)
+            .innerRadius(80)
             .cornerRadius(6)
             .padAngle(80)
             .padRadius(3);
@@ -39,15 +39,15 @@ export default class Slice extends Component {
             color,
             index,
             data,
-            animData
+            animData,
+            ratio
         } = this.props;
-        let val = data[index].number;
-        // alert(endAngle)
+
         data[index].number = animData
 
         return (
             <Path
-                onPress={()=>alert('value is: '+val)}
+                onPress={()=>alert(`${Math.floor(ratio*100)}% people want ${data[index].name}`)}
                 d={this.createPieArc(index, endAngle, data)}
                 fill={color}
             />
